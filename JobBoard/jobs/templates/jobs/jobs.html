@@ -1,0 +1,38 @@
+{% extends  'main.html' %}
+
+{% block content %}
+
+<main class="jobs">
+    <section>
+			<div class="search-bar">
+				<form>
+					<input type="text" placeholder="Job Search">
+					<input type="text" placeholder="Location Search">
+					<button type="submit">Search</button>
+				</form>
+			</div>
+		</section>
+
+		<section>
+		  <div class="job-listings">
+			{% for job in jobs %}
+			  <div class="job-listing-container">
+				<div class="job-listing">
+				  <h3><a href="{% url 'job' job.id %}">{{ job.title }}</a></h3>
+				  <p>{{ job.company_name }}</p>
+				  <p>{{ job.location }}</p>
+				  <p>{{ job.description }}</p>
+				  <p>{{ job.remote }}</p>
+				  <p>{{ job.created }}</p>
+				  <a href="#">Apply Now</a>
+				  <a href="{% url 'update-job' job.id %}">Edit</a>
+				  <a href="{% url 'delete-job' job.id %}">Delete</a>
+				</div>
+			  </div>
+			{% endfor %}
+		  </div>
+		</section>
+</main>
+
+
+{% endblock %}

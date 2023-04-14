@@ -1,0 +1,34 @@
+{% load static %}
+
+<header>
+  <div class="navbar-container">
+    <nav>
+      <div class="logo">
+		  <a href="{% url 'jobs' %}">
+  			<img src="{% static 'images/logo3.png' %}">
+		  </a>
+
+
+		</div>
+		<div class="nav-links">
+			<ul>
+				<li><a href="#">Messages</a></li>
+				<li><a href="#">Notifications</a></li>
+				<li class="dropdown">
+					<a href="#">Profile</a>
+					<div class="dropdown-menu">
+						<a href="#">Email: yourname@example.com</a>
+						<a href="#">View Profile</a>
+						<a href="#">Saved Jobs</a>
+						<a href="#">Help Centre</a>
+						<a href="#">Log Out</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="post-job">
+			<a href="{% url 'create-job' %}">Post a Job</a>
+		</div>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,15 @@
+{% extends  'main.html' %}
+
+{% block content %}
+    <h3>{{ job.title }}</h3>
+
+    {% for tag in job.tags.all %}
+        <span style="border: 1px solid grey">{{tag}}</span>
+    {% endfor %}
+    <p>{{ job.company_name }}</p>
+    <p>{{ job.location }}</p>
+    <p>{{ job.description }}</p>
+    <p>{{ job.remote }}</p>
+    <p>{{ job.created }}</p>
+    <a href="#">Apply Now</a>
+{% endblock content %}
