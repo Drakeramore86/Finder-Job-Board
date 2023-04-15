@@ -1,34 +1,31 @@
 {% load static %}
 
-<header>
-  <div class="navbar-container">
-    <nav>
-      <div class="logo">
-		  <a href="{% url 'jobs' %}">
-  			<img src="{% static 'images/logo3.png' %}">
-		  </a>
+ <!-- Header Section -->
+  <header class="header">
+    <div class="container container--narrow">
+      <a href="{% url 'jobs' %}" class="header__logo">
+        <img src="{% static 'images/logo3.png' %}" alt="DevSearch Logo" />
+      </a>
+      <nav class="header__nav">
+        <input type="checkbox" id="responsive-menu" />
+        <label for="responsive-menu" class="toggle-menu">
+          <span>Menu</span>
+          <div class="toggle-menu__lines"></div>
+        </label>
+        <ul class="header__menu">
+          <li class="header__menuItem"><a href="{% url 'profiles' %}">Employers</a></li>
+          <li class="header__menuItem"><a href="{% url 'jobs' %}">Jobs</a></li>
 
 
-		</div>
-		<div class="nav-links">
-			<ul>
-				<li><a href="#">Messages</a></li>
-				<li><a href="#">Notifications</a></li>
-				<li class="dropdown">
-					<a href="#">Profile</a>
-					<div class="dropdown-menu">
-						<a href="#">Email: yourname@example.com</a>
-						<a href="#">View Profile</a>
-						<a href="#">Saved Jobs</a>
-						<a href="#">Help Centre</a>
-						<a href="#">Log Out</a>
-					</div>
-				</li>
-			</ul>
-		</div>
-		<div class="post-job">
-			<a href="{% url 'create-job' %}">Post a Job</a>
-		</div>
-    </nav>
-  </div>
-</header>
+          {% if request.user.is_authenticated %}
+          <li class="header__menuItem"><a href="">Inbox</a></li>
+          <li class="header__menuItem"><a href="">Profile</a></li>
+          <li class="header__menuItem"><a href="{% url 'create-job' %}" class="btn btn--sub">Post a Job</a></li>
+          <li class="header__menuItem"><a href="" class="btn btn--sub">Logout</a></li>
+          {% else %}
+          <li class="header__menuItem"><a href="" class="btn btn--sub">Login/Sign Up</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </header>

@@ -1,13 +1,15 @@
 from django.db import models
 import uuid
+from users.models import Profile, Employer
 
 # Create your models here.
 class Job(models.Model):
-    #owner = models.ForeignKey(Profile, null=True, blank=True, on_delete=models.CASCADE)
+    owner = models.ForeignKey(Employer, null=True, blank=True, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     company_name = models.CharField(max_length=50)
     location = models.CharField(max_length=100, null=True, blank=True)
     remote = models.BooleanField(default=False)
+    payment = models.FloatField(default=0.0, null=True, blank=True)
     tags = models.ManyToManyField('Tag', blank=True)
     description = models.TextField(null=True, blank=True)
     vote_total = models.IntegerField(default=0, null=True, blank=True)
@@ -31,7 +33,7 @@ class Review(models.Model):
         ('four', 'Four Stars'),
         ('five', 'Five Stars'),
     )
-    # owner =
+    owner = models.ForeignKey(Profile, null=True, blank=True, on_delete=models.CASCADE)
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     body = models.TextField(null=True, blank=True)
     value = models.CharField(max_length=200, choices=VOTE_TYPE)
@@ -50,3 +52,17 @@ class Tag(models.Model):
                           primary_key=True, editable=False)
     def __str__(self):
         return self.name
+
+
+class JobApplication(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    date_applied = models.DateTimeField(auto_now_add=True)
+    resume = models.FileField(upload_to='resumes/')
+    notes = models.TextField(blank=True)
+
+class SavedJob(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    date_saved = models.DateTimeField(auto_now_add=True)
+    notes = models.TextField(blank=True)

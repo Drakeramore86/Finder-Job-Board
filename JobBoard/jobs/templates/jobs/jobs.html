@@ -2,37 +2,72 @@
 
 {% block content %}
 
-<main class="jobs">
-    <section>
-			<div class="search-bar">
-				<form>
-					<input type="text" placeholder="Job Search">
-					<input type="text" placeholder="Location Search">
-					<button type="submit">Search</button>
-				</form>
-			</div>
-		</section>
+<main class="projects">
+    <section class="hero-section text-center">
+        <div class="container container--narrow">
+            <div class="hero-section__box">
+                <h2>Search for <span>Jobs</span></h2>
+            </div>
 
-		<section>
-		  <div class="job-listings">
-			{% for job in jobs %}
-			  <div class="job-listing-container">
-				<div class="job-listing">
-				  <h3><a href="{% url 'job' job.id %}">{{ job.title }}</a></h3>
-				  <p>{{ job.company_name }}</p>
-				  <p>{{ job.location }}</p>
-				  <p>{{ job.description }}</p>
-				  <p>{{ job.remote }}</p>
-				  <p>{{ job.created }}</p>
-				  <a href="#">Apply Now</a>
-				  <a href="{% url 'update-job' job.id %}">Edit</a>
-				  <a href="{% url 'delete-job' job.id %}">Delete</a>
-				</div>
-			  </div>
-			{% endfor %}
-		  </div>
-		</section>
+            <div class="hero-section__search">
+                <form id='searchForm' class="form" action="{% url 'jobs' %}" method="get">
+                    <div class="form__field">
+                        <label for="formInput#search">Search By Jobs </label>
+                        <input class="input input--text" id="formInput#search" type="text" name="search_query"
+                            placeholder="Search by Job's Title" value="{{search_query}}" />
+                    </div>
+                    <input class="btn btn--sub btn--lg" type="submit" value="Search" />
+                </form>
+            </div>
+
+        </div>
+    </section>
+    <!-- Search Result: DevList -->
+    <section class="projectsList">
+        <div class="container">
+            <div class="grid grid--three">
+
+                {% for job in jobs %}
+                <div class="column">
+                    <div class="card project">
+                        <a href="{% url 'job' job.id %}" class="project">
+                            <div class="card__body">
+                                <h3 class="project__title"><a href="{% url 'job' job.id %}">{{job.title}}</a></h3>
+                                <p><a class="project__author" href="{% url 'user-profile' job.owner.id %}">Employer - {{job.owner}}</a></p>
+                                <p>{{job.location}}</p>
+                                {% if job.remote %}
+                                <p>Remote</p>
+                                {% else %}
+                                <p>On site</p>
+                                {% endif %}
+                                <p><a>Salary - {{job.payment}}</a></p>
+                                <p>{{job.description|slice:"150"}}</p>
+                                <p class="project--rating">
+                                    <span style="font-weight: bold;">{{job.vote_ratio}}%</span> Positive
+                                    Feedback ({{job.vote_total}}) Vote{{job.vote_total|pluralize:"s"}}
+                                </p>
+                                <div class="project__tags">
+                                    {% for tag in job.tags.all %}
+                                    <span class="tag tag--pill tag--main">
+                                        <small>{{tag}}</small>
+                                    </span>
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </section>
+
+
+
 </main>
+
 
 
 {% endblock %}
